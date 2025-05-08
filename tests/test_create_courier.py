@@ -1,11 +1,7 @@
 import allure
-import requests
-from urls import Urls
 from constants import Constants
 from utils import generate_random_string
-
-
-
+from api.courier import CourierApi
 
 @allure.story("Создание курьера")
 class TestCreateCourier:
@@ -18,7 +14,7 @@ class TestCreateCourier:
     @allure.title("Нельзя создать двух одинаковых курьеров")
     def test_create_duplicate_courier(self, courier):
         courier_data, response = courier
-        duplicate_response = requests.post(Urls.CREATE_COURIER_URL, json=courier_data)
+        duplicate_response = CourierApi.create(courier_data)
         assert duplicate_response.status_code == 409, \
             f"Ожидался статус 409, получен {duplicate_response.status_code}"
         expected_message = Constants.DUPLICATE_LOGIN
@@ -32,12 +28,12 @@ class TestCreateCourier:
             "password": generate_random_string(4),
             "firstName": generate_random_string(10)
         }
-        response = requests.post(Urls.CREATE_COURIER_URL, json=courier_data)
+        response = CourierApi.create(courier_data)
         assert response.status_code == 400, \
             f"Ожидался статус 400, получен {response.status_code}"
         expected_message = Constants.LOGIN_DATA_MISSING
         actual_message = response.json()["message"]
-        assert response.json()["message"] == Constants.LOGIN_DATA_MISSING
+        assert actual_message == expected_message
 
     @allure.title("Ошибка при создании курьера без пароля")
     def test_create_courier_no_password(self):
@@ -45,7 +41,7 @@ class TestCreateCourier:
             "login": generate_random_string(4),
             "firstName": generate_random_string(10)
         }
-        response = requests.post(Urls.CREATE_COURIER_URL, json=courier_data)
+        response = CourierApi.create(courier_data)
         assert response.status_code == 400, \
             f"Ожидался статус 400, получен {response.status_code}"
         expected_message = Constants.LOGIN_DATA_MISSING
@@ -60,6 +56,6 @@ class TestCreateCourier:
             "password": generate_random_string(4),
             "firstName": generate_random_string(10)
         }
-        response = requests.post(Urls.CREATE_COURIER_URL, json=new_data)
+        response = CourierApi.create(new_data)
         assert response.status_code == 409
         assert Constants.DUPLICATE_LOGIN in response.json()["message"]

@@ -3,6 +3,7 @@ import requests
 from urls import Urls
 from constants import Constants
 from utils import generate_random_string
+from api.courier import CourierApi
 
 @allure.story("Логин курьера")
 class TestLoginCourier:
@@ -13,7 +14,7 @@ class TestLoginCourier:
             "login": courier_data["login"],
             "password": courier_data["password"]
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 200
         assert "id" in response.json()
 
@@ -23,7 +24,7 @@ class TestLoginCourier:
         login_data = {
             "password": courier_data["password"]
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 400
         assert response.json()["message"] == Constants.LOGIN_DATA_MISSING
 
@@ -33,7 +34,7 @@ class TestLoginCourier:
         login_data = {
             "login": courier_data["login"]
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 400, f"Ожидался статус 400, получен {response.status_code}"
         assert response.json()["message"] == Constants.LOGIN_DATA_MISSING
 
@@ -44,7 +45,7 @@ class TestLoginCourier:
             "login": "test" + courier_data["login"],
             "password": courier_data["password"]
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 404
         assert response.json()["message"] == Constants.USER_NOT_FOUND
 
@@ -55,7 +56,7 @@ class TestLoginCourier:
             "login": courier_data["login"],
             "password": "test" + courier_data["password"]
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 404
         assert response.json()["message"] == Constants.USER_NOT_FOUND
 
@@ -65,6 +66,6 @@ class TestLoginCourier:
             "login": generate_random_string(10),
             "password": generate_random_string(4)
         }
-        response = requests.post(Urls.LOGIN_COURIER_URL, json=login_data)
+        response = CourierApi.login(login_data)
         assert response.status_code == 404
         assert response.json()["message"] == Constants.USER_NOT_FOUND

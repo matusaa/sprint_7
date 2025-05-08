@@ -1,0 +1,12 @@
+[
+  "test_create_courier.py::TestCreateCourier::test_create_courier_no_password",
+  "test_create_order.py::TestCreateOrder::test_create_order_with_various_colors[order_color0]",
+  "test_create_order.py::TestCreateOrder::test_create_order_with_various_colors[order_color1]",
+  "test_create_order.py::TestCreateOrder::test_create_order_with_various_colors[order_color2]",
+  "test_create_order.py::TestCreateOrder::test_create_order_without_color",
+  "test_create_order.py::TestLoginCourier::test_create_order_with_various_colors",
+  "test_create_order.py::TestLoginCourier::test_create_order_without_color",
+  "test_create_order.py::test_create_order_without_color",
+  "test_login_courier.py::TestLoginCourier::test_courier_can_login_and_returns_id",
+  "test_order_list.py::TestOrderList::test_get_orders_returns_list"
+]
