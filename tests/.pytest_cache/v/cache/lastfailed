@@ -1,0 +1,6 @@
+{
+  "test_order_list.py": true,
+  "test_create_order.py::TestLoginCourier::test_create_order_with_various_colors": true,
+  "test_create_courier.py::TestCreateCourier::test_create_courier_no_password": true,
+  "test_login_courier.py::TestLoginCourier::test_courier_can_login_and_returns_id": true
+}
