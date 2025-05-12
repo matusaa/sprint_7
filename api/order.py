@@ -8,6 +8,4 @@ class OrderApi:
 
     @staticmethod
     def get_orders():
-        from urls import Urls
-        import requests
         return requests.get(Urls.ORDER_URL)
